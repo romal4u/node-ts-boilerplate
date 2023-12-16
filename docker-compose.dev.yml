@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: mysqldb
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_USER: dev
+      MARIADB_PASSWORD: dev
+      MARIADB_DATABASE: db_boilerplate
+    volumes:
+      - ./database/boilerplate:/var/lib/mysql/data/
+    networks:
+      - v-development-nw
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - v-development-nw
+
+  app:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - '4000:4000'
+    depends_on:
+      - db
+    networks:
+      - v-development-nw
+
+networks:
+  v-development-nw:
+    driver: bridge

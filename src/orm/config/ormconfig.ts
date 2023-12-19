@@ -1,6 +1,6 @@
-import { ConnectionOptions } from 'typeorm'
+import { DataSourceOptions } from "typeorm"
 
-const config: ConnectionOptions = {
+const config: DataSourceOptions = {
   type: 'mysql',
   name: 'default',
   host: process.env.DB_HOST,
@@ -13,11 +13,6 @@ const config: ConnectionOptions = {
   entities: ['src/orm/entities/**/*.ts'],
   migrations: ['src/orm/migrations/**/*.ts'],
   subscribers: ['src/orm/subscriber/**/*.ts'],
-  cli: {
-    entitiesDir: 'src/orm/entities',
-    migrationsDir: 'src/orm/migrations',
-    subscribersDir: 'src/orm/subscriber',
-  },
 }
 
-export = config
+export default config

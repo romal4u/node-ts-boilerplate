@@ -1,6 +1,8 @@
+import { NextFunction, Request, Response } from 'express'
 import Joi from 'joi'
+import { ValidationError } from '../../../utils/AppError'
 
-const validatorRegister = Joi.object({
+const registerSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().email().required(),
   password: Joi.string().required(),
@@ -9,4 +11,12 @@ const validatorRegister = Joi.object({
   }),
 })
 
-export default validatorRegister
+export const validatorRegister = (req: Request, res: Response, next: NextFunction) => {
+  const validationResult = registerSchema.validate(req.body)
+
+  if (validationResult.error) {
+    throw new ValidationError(validationResult.error.message)
+  } else {
+    next()
+  }
+}

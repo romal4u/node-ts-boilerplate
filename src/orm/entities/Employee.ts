@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import bcrypt from 'bcryptjs'
 
 @Entity({ name: 'tbl_employee' })
 export class Employee {
@@ -31,4 +32,12 @@ export class Employee {
 
   @Column()
   modified_at: Date
+
+  hashPassword() {
+    this.password = bcrypt.hashSync(this.password, 8)
+  }
+
+  checkIfPasswordMatch(unencryptedPassword: string) {
+    return bcrypt.compareSync(unencryptedPassword, this.password)
+  }
 }

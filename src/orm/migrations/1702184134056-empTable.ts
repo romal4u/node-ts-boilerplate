@@ -10,6 +10,7 @@ export class empTable1702184134056 implements MigrationInterface {
             name: 'id',
             type: 'int',
             isPrimary: true,
+            isGenerated: true,
           },
           {
             name: 'name',
@@ -26,18 +27,22 @@ export class empTable1702184134056 implements MigrationInterface {
           {
             name: 'is_2fa_enable',
             type: 'tinyint',
+            default: '0',
           },
           {
             name: 'is_otp_verified',
             type: 'tinyint',
+            default: '0',
           },
           {
             name: 'otp_secret',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'otp_auth_url',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'created_at',
@@ -48,7 +53,7 @@ export class empTable1702184134056 implements MigrationInterface {
             name: 'modified_at',
             type: 'timestamp',
             default: 'now()',
-            onUpdate: 'now()'
+            onUpdate: 'now()',
           },
         ],
       }),

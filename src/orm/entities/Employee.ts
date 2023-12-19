@@ -1,10 +1,20 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import bcrypt from 'bcryptjs'
 
+export type JwtPayload = {
+  id: number;
+  name: string;
+  email: string;
+  created_at: Date;
+};
+
 @Entity({ name: 'tbl_employee' })
 export class Employee {
   @PrimaryGeneratedColumn()
   id: number
+
+  @Column()
+  uuid: string
 
   @Column()
   name: string

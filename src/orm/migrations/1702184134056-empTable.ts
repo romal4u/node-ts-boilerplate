@@ -11,6 +11,13 @@ export class empTable1702184134056 implements MigrationInterface {
             type: 'int',
             isPrimary: true,
             isGenerated: true,
+            generationStrategy: "increment"
+
+          },
+          {
+            name: 'uuid',
+            type: 'varchar',
+            isUnique: true,
           },
           {
             name: 'name',

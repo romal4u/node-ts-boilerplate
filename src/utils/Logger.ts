@@ -88,8 +88,8 @@ export class Logger {
       meta: {
         data: process?.env?.NODE_ENV === 'development' ? data : this.safeStringify(data),
         reqId: httpContext.get('x-request-id') || '',
-        reqUrl: httpContext.get('x-vi-reqURL') || '',
-        timestamp: DateTime.local().toFormat('YYYY-MM-DDTHH:mm:ss.SSSSZ'),
+        reqUrl: httpContext.get('x-reqURL') || '',
+        timestamp: DateTime.local(),
         method: arg['method'],
         ...(morgan ? morgan : {}), // Add the modified 'morgan' object without the 'body' key
       },

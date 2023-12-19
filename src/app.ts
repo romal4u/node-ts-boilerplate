@@ -9,7 +9,7 @@ import express from 'express'
 import helmet from 'helmet'
 import morgan from 'morgan'
 import routes from './routes'
-import { appDataSource } from './orm/dbCreateConnection'
+import { appDataSource } from './orm/connection'
 import { errorHandler } from './middleware/errorHandler'
 
 appDataSource
@@ -27,22 +27,6 @@ app.use(cors({ credentials: true, origin: true }))
 app.use(helmet())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-
-try {
-  const logDir = __dirname + '/../log'
-
-  if (!fs.existsSync(logDir)) {
-    fs.mkdirSync(logDir)
-  }
-
-  const accessLogStream = fs.createWriteStream(logDir + '/access.log', {
-    flags: 'a',
-  })
-  app.use(morgan('combined', { stream: accessLogStream }))
-} catch (err) {
-  console.log(err)
-}
-app.use(morgan('combined'))
 
 app.use('/', routes)
 

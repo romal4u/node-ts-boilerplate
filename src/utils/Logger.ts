@@ -1,6 +1,7 @@
+import * as path from 'path'
+
 import httpContext from 'express-http-context'
 import { DateTime } from 'luxon'
-import * as path from 'path'
 import * as winston from 'winston'
 
 export class Logger {

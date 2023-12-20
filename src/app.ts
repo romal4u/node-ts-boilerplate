@@ -1,16 +1,17 @@
 import 'dotenv/config'
+
 import 'reflect-metadata'
-import fs from 'fs'
-import path from 'path'
 
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import express from 'express'
 import helmet from 'helmet'
-import morgan from 'morgan'
-import routes from './routes'
-import { appDataSource } from './orm/connection'
+import swaggerUi from 'swagger-ui-express'
+
 import { errorHandler } from './middleware/errorHandler'
+import { appDataSource } from './orm/connection'
+import routes from './routes'
+import swaggerOutput from './swagger_output.json'
 
 appDataSource
   .initialize()
@@ -29,6 +30,8 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use('/', routes)
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerOutput))
 
 errorHandler(app)
 

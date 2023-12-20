@@ -1,5 +1,8 @@
-import { AuthController } from '../../controllers/AuthController'
 import { Request, Response, Router } from 'express'
+import Container from 'typedi'
+
+import { AuthController } from '../../controllers/AuthController'
+import { checkJwt } from '../../middleware/checkJWT'
 import {
   validatorRegister,
   validatorLogin,
@@ -7,8 +10,6 @@ import {
   validatorSetUpMFA,
   validatorEnableMFA,
 } from '../../middleware/validation/auth'
-import Container from 'typedi'
-import { checkJwt } from '../../middleware/checkJWT'
 
 const router = Router()
 

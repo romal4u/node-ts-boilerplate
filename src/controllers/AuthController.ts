@@ -1,13 +1,14 @@
 import { Request, Response } from 'express'
-import { User, JwtPayload } from '../orm/entities/User'
+import * as OTPAuth from 'otpauth'
 import { Service } from 'typedi'
 import { Repository } from 'typeorm'
-import { appDataSource } from '../orm/connection'
-import { HelperResponse } from '../utils/helperResponse'
-import { createJwtToken } from '../utils/createJWTToken'
 import { v4 as uuidv4 } from 'uuid'
+
+import { appDataSource } from '../orm/connection'
+import { User, JwtPayload } from '../orm/entities/User'
+import { createJwtToken } from '../utils/createJWTToken'
+import { HelperResponse } from '../utils/helperResponse'
 import { generateRandomBase32 } from '../utils/MFA'
-import * as OTPAuth from 'otpauth'
 
 @Service()
 export class AuthController {
@@ -156,7 +157,7 @@ export class AuthController {
 
     const base32_secret = generateRandomBase32()
 
-    let totp = new OTPAuth.TOTP({
+    const totp = new OTPAuth.TOTP({
       issuer: 'example.com',
       label: user.email,
       algorithm: 'SHA1',
@@ -198,7 +199,7 @@ export class AuthController {
       )
     }
 
-    let totp = new OTPAuth.TOTP({
+    const totp = new OTPAuth.TOTP({
       issuer: 'example.com',
       label: user.email,
       algorithm: 'SHA1',
@@ -209,7 +210,7 @@ export class AuthController {
 
     const delta = totp.validate({ token: body.totp, window: 1 })
 
-    if (delta === null) {
+    if (delta === null || delta < 0) {
       return this.helperResponse.response({ isSuccess: false, message: 'User not found / OTP is not valid' }, res)
     }
 
@@ -245,7 +246,7 @@ export class AuthController {
       return this.helperResponse.response({ isSuccess: false, message: 'User not found / OTP is not valid' }, res)
     }
 
-    let totp = new OTPAuth.TOTP({
+    const totp = new OTPAuth.TOTP({
       issuer: 'example.com',
       label: user.email,
       algorithm: 'SHA1',
@@ -258,7 +259,7 @@ export class AuthController {
 
     console.log(delta)
 
-    if (delta < 0) {
+    if (delta === null || delta < 0) {
       return this.helperResponse.response({ isSuccess: false, message: 'User not found / OTP is not valid' }, res)
     }
 

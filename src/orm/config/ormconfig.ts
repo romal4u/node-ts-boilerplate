@@ -1,4 +1,4 @@
-import { DataSourceOptions } from "typeorm"
+import { DataSourceOptions } from 'typeorm'
 
 const config: DataSourceOptions = {
   type: 'mysql',

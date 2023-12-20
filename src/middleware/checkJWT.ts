@@ -2,8 +2,8 @@ import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 
 import { JwtPayload } from '../orm/entities/User'
-import { createJwtToken } from '../utils/createJWTToken'
 import { AuthorizationError, ValidationError } from '../utils/AppError'
+import { createJwtToken } from '../utils/createJWTToken'
 
 export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.get('Authorization')
@@ -19,9 +19,8 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
     req['jwtPayload'] = jwtPayload as JwtPayload
 
     if (!req['jwtPayload']['is_otp_verified']) {
-        throw new AuthorizationError('Please enable 2FA first!')
+      throw new AuthorizationError('Please enable 2FA first!')
     }
-
   } catch (err) {
     throw new ValidationError('JWT error')
   }

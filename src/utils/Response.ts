@@ -1,4 +1,4 @@
-import { Logger } from "./Logger"
+import { Logger } from './Logger'
 
 const log = new Logger(__filename)
 export class Helpers {
@@ -7,7 +7,7 @@ export class Helpers {
     isSuccess: boolean,
     message: string,
     payload?: object,
-    count?: number
+    count?: number,
   ): Promise<any> {
     const output = {
       status: status,

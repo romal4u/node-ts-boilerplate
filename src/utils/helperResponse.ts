@@ -1,6 +1,6 @@
 import { Service } from 'typedi'
-import { Helpers } from './Response'
 
+import { Helpers } from './Response'
 
 @Service()
 export class HelperResponse {
@@ -11,7 +11,7 @@ export class HelperResponse {
       result.isSuccess,
       result?.message,
       result?.payload,
-      result?.count
+      result?.count,
     )
     return res.status(status).send(responseFormat)
   }

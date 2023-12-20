@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
-import { JwtPayload } from '../orm/entities/User'
 
+import { JwtPayload } from '../orm/entities/User'
 
 export const createJwtToken = (payload: JwtPayload): string => {
   return jwt.sign(payload, process.env.JWT_SECRET!, {

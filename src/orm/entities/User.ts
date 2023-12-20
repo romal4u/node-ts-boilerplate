@@ -1,5 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import bcrypt from 'bcryptjs'
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
 export type JwtPayload = {
   uuid: string

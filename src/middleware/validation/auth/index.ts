@@ -1,2 +1,5 @@
 export * from './validatorRegister'
 export * from './validatorLogin'
+export * from './validatorChangePassword'
+export * from './validatorEnable2FA'
+export * from './validatorSetUp2FA'

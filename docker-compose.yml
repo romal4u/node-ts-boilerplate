@@ -1,12 +1,47 @@
 version: '3.8'
 
 services:
+  db:
+    container_name: mysqldb
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_USER: dev
+      MARIADB_PASSWORD: dev
+      MARIADB_DATABASE: db_boilerplate
+    volumes:
+      - ./database/boilerplate:/var/lib/mysql/data/
+    networks:
+      - v-development-nw
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - v-development-nw
+    depends_on:
+      - db  # Make sure adminer starts after the db service
+
   app:
-    container_name: 'app'
-    build:
-      context: .
-      dockerfile: Dockerfile
+    container_name: app
+    build: .
+    env_file:
+      - .env
+    ports:
+      - '4000:4000'
+    depends_on:
+      - db
     restart: always
     volumes:
       - .:/app/
       - /app/node_modules
+    networks:
+      - v-development-nw
+
+networks:
+  v-development-nw:
+    driver: bridge

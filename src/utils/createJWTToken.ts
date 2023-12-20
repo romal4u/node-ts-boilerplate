@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { JwtPayload } from '../orm/entities/Employee'
+import { JwtPayload } from '../orm/entities/User'
 
 
 export const createJwtToken = (payload: JwtPayload): string => {

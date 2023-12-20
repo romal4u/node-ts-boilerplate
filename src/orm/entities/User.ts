@@ -2,14 +2,16 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import bcrypt from 'bcryptjs'
 
 export type JwtPayload = {
-  id: number;
-  name: string;
-  email: string;
-  created_at: Date;
-};
+  uuid: string
+  name: string
+  email: string
+  created_at: Date
+  is_2fa_enable: number
+  is_otp_verified: number
+}
 
 @Entity({ name: 'tbl_employee' })
-export class Employee {
+export class User {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -26,16 +28,16 @@ export class Employee {
   password: string
 
   @Column()
-  is_2fa_enable: boolean
+  is_2fa_enable: number
 
   @Column()
-  is_otp_verified: boolean
+  is_otp_verified: number
 
   @Column()
-  otp_secret: boolean
+  otp_secret: string
 
   @Column()
-  otp_auth_url: boolean
+  otp_auth_url: string
 
   @Column()
   created_at: Date

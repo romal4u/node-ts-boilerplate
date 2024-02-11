@@ -31,10 +31,10 @@ jobs:
         uses: burnett01/rsync-deployments@5.1
         with:
           switches: -avzr --delete
-            path: ./
-            remote_path: /var/www/my-app/
-            remote_host: 34.239.108.195
-            remote_user: ubuntu
-            remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
+          path: ./
+          remote_path: /var/www/my-app/
+          remote_host: 34.239.108.195
+          remote_user: ubuntu
+          remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
 
   

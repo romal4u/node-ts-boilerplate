@@ -1,4 +1,5 @@
 import { DataSourceOptions } from 'typeorm'
+import { AuditingSubscriber } from 'typeorm-auditing'
 
 const config: DataSourceOptions = {
   type: 'mysql',
@@ -12,7 +13,7 @@ const config: DataSourceOptions = {
   logging: true,
   entities: ['src/orm/entities/**/*.ts'],
   migrations: ['src/orm/migrations/**/*.ts'],
-  subscribers: ['src/orm/subscriber/**/*.ts'],
+  subscribers: ['src/orm/subscriber/**/*.ts', AuditingSubscriber],
 }
 
 export default config

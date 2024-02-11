@@ -24,7 +24,7 @@ services:
     networks:
       - v-development-nw
     depends_on:
-      - db  # Make sure adminer starts after the db service
+      - db # Make sure adminer starts after the db service
 
   app:
     container_name: app

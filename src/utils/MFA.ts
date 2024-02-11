@@ -1,7 +1,5 @@
-import crypto from 'crypto'
-
 import { encode } from 'hi-base32'
-import * as OTPAuth from 'otpauth'
+import crypto from 'crypto'
 
 export const generateRandomBase32 = () => {
   const buffer = crypto.randomBytes(15)

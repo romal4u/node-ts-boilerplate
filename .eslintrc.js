@@ -47,4 +47,5 @@ module.exports = {
       },
     },
   },
+  ignorePatterns: ['.github'],
 }

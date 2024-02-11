@@ -2,7 +2,7 @@ name: CI/CD for boilerplate
 
 on:
   push:
-    branches: [ci-cd]
+    branches: [main]
   workflow_dispatch:
 
 jobs:

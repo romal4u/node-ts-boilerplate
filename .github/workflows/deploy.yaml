@@ -74,21 +74,34 @@ jobs:
             const existingDraftRelease = releases.find(release => release.draft && release.tag_name === 'v1.0.${{ github.run_number }}');
             return existingDraftRelease;
 
-      - name: Create or Update Draft Release
-        id: create_or_update_release
+      - name: Create Draft Release
+        id: create_draft_release
+        if: steps.get_pr_description.outputs.pr_description != '' && !steps.get_existing_release.outputs.existingDraftRelease
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
         with:
           tag_name: v1.0.${{ github.run_number }}
-          draft: |
-            ${{ steps.get_existing_release.outputs.existingDraftRelease ? 'false' : 'true' }}
+          draft: true
           name: Release v1.0.${{ github.run_number }}
           body: |
             ${{ steps.get_pr_description.outputs.pr_description }}
-        if: steps.get_pr_description.outputs.pr_description != '' && steps.get_existing_release.outputs.existingDraftRelease
+
+      - name: Update Draft Release
+        id: update_draft_release
+        if: steps.get_existing_release.outputs.existingDraftRelease
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+        with:
+          release_id: ${{ steps.get_existing_release.outputs.existingDraftRelease.id }}
+          tag_name: v1.0.${{ github.run_number }}
+          draft: true
+          name: Release v1.0.${{ github.run_number }}
+          body: |
+            ${{ steps.get_pr_description.outputs.pr_description }}
 
       - name: Debug Draft Release
         run: |
-          echo "Draft Release ID: ${{ steps.create_or_update_release.outputs.id }}"
-          echo "Draft Release HTML URL: ${{ steps.create_or_update_release.outputs.html_url }}"
+          echo "Draft Release ID: ${{ steps.create_draft_release.outputs.id }}"
+          echo "Draft Release HTML URL: ${{ steps.create_draft_release.outputs.html_url }}"

@@ -12,6 +12,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Download release assets
+        id: download_release_assets
+        uses: actions/download-artifact@v2
+        with:
+          name: release-assets
+          # Adjust the release name and file pattern as needed
+          path: ./release-assets
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -23,8 +31,8 @@ jobs:
         uses: burnett01/rsync-deployments@5.1
         with:
           switches: -avzr --delete
-          # Adjust the path to your build artifacts or project files that need to be deployed
-          path: ./dist/*
+          # Specify the path to the release assets
+          path: ./release-assets/*
           # Adjust the remote path on the server where the files will be deployed
           remote_path: /var/www/my-app/
           # Provide the IP address or hostname of your server

@@ -42,7 +42,7 @@ jobs:
 
     steps:
       - name: Create Draft Release
-        id: create_release
+        id: create-new-release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
@@ -51,8 +51,18 @@ jobs:
           draft: true
           title: Release v1.0.${{ github.run_number }}
           body: |
-            Describe your release here
+            Release v1.0.${{ github.run_number }}
       - name: Debug Draft Release
         run: |
           echo "Draft Release ID: ${{ steps.create_release.outputs.id }}"
           echo "Draft Release HTML URL: ${{ steps.create_release.outputs.html_url }}"
+
+      - name: Upload assets to Github release
+        uses: actions/upload-release-asset@v1
+        env:
+           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create-new-release.outputs.upload_url}}
+          asset_path: ./release-assets/1.0.${{ github.run_number }}.zip
+          asset_name: 1.0.${{ github.run_number }}
+          asset_content_type: application/zip

@@ -6,26 +6,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  get_pr_description:
-    runs-on: ubuntu-latest
-    outputs:
-      pr_description: ${{ steps.get_pr_description.outputs.pr_description }}
-    steps:
-      - name: Get PR Description
-        id: get_pr_description
-        uses: actions/github-script@v5
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { data: pullRequests } = await github.pulls.list({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'closed',
-              base: 'main',
-              per_page: 1,
-            });
-            return pullRequests[0].body;
-
   build:
     runs-on: ubuntu-latest
 
@@ -85,7 +65,7 @@ jobs:
           draft: true
           name: Release v1.0.${{ github.run_number }}
           body: |
-            ${{ steps.get_pr_description.outputs.pr_description }}
+            Release v1.0.${{ github.run_number }}
 
       - name: Update Draft Release
         id: update_draft_release
@@ -99,7 +79,7 @@ jobs:
           draft: true
           name: Release v1.0.${{ github.run_number }}
           body: |
-            ${{ steps.get_pr_description.outputs.pr_description }}
+            Release v1.0.${{ github.run_number }}
 
       - name: Debug Draft Release
         run: |

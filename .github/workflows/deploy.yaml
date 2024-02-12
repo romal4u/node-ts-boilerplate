@@ -37,51 +37,22 @@ jobs:
 
   create_release_draft:
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: build
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
-      - name: Get Existing Draft Release
-        id: get_existing_release
-        uses: actions/github-script@v5
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            try {
-              const { data: releases } = await github.repos.listReleases({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-              });
-              const existingDraftRelease = releases.find(release => release.draft && release.tag_name === 'v1.0.${{ github.run_number }}');
-              return existingDraftRelease;
-            } catch (error) {
-              core.setFailed(error.message);
-            }
-
       - name: Create Draft Release
-        id: create_draft_release
-        if: steps.get_existing_release.outputs.existingDraftRelease == null
+        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
         with:
           tag_name: v1.0.${{ github.run_number }}
           draft: true
-          name: Release v1.0.${{ github.run_number }}
-
-      - name: Update Draft Release
-        id: update_draft_release
-        if: steps.get_existing_release.outputs.existingDraftRelease != null
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
-        with:
-          release_id: ${{ steps.get_existing_release.outputs.existingDraftRelease.id }}
-          tag_name: v1.0.${{ github.run_number }}
-          draft: true
-          name: Release v1.0.${{ github.run_number }}
-
+          title: Release v1.0.${{ github.run_number }}
+          body: |
+            Describe your release here
       - name: Debug Draft Release
         run: |
-          echo "Draft Release ID: ${{ steps.create_draft_release.outputs.id }}"
-          echo "Draft Release HTML URL: ${{ steps.create_draft_release.outputs.html_url }}"
+          echo "Draft Release ID: ${{ steps.create_release.outputs.id }}"
+          echo "Draft Release HTML URL: ${{ steps.create_release.outputs.html_url }}"

@@ -32,9 +32,6 @@ jobs:
       - name: Install dependency
         run: npm install
 
-      - name: Install PM2
-        run: npm install pm2 -g
-
       - name: Create build
         run: npm run build
 
@@ -48,37 +45,10 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
         with:
           tag_name: v1.0.$GITHUB_RUN_NUMBER
           draft: true
           title: Release v1.0.$GITHUB_RUN_NUMBER
           body: |
             Describe your release here
-
-  publish_release:
-    runs-on: ubuntu-latest
-    needs: create_release_draft
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.publish == 'true'
-
-    steps:
-      - name: Deploy to AWS server
-        uses: burnett01/rsync-deployments@5.1
-        with:
-          switches: -avzr --delete
-          path: ./*
-          remote_path: /var/www/my-app/
-          remote_host: 34.239.108.195
-          remote_user: ubuntu
-          remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
-
-      - name: Publish Release
-        id: publish_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v1.0.$GITHUB_RUN_NUMBER
-          release_name: Release v1.0.$GITHUB_RUN_NUMBER
-          draft: false
-          prerelease: false

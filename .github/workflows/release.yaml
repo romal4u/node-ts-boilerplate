@@ -2,7 +2,7 @@ name: Deploy on Release
 
 on:
   release:
-    types: [created]
+    types: [published]
 
 jobs:
   deploy:
@@ -12,6 +12,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20' # Adjust the Node.js version as needed
+
       # Add any setup steps needed for deployment, such as installing dependencies, building the project, etc.
 
       - name: Deploy to server
@@ -19,7 +24,7 @@ jobs:
         with:
           switches: -avzr --delete
           # Adjust the path to your build artifacts or project files that need to be deployed
-          path: ./*
+          path: ./dist/*
           # Adjust the remote path on the server where the files will be deployed
           remote_path: /var/www/my-app/
           # Provide the IP address or hostname of your server

@@ -40,7 +40,7 @@ jobs:
         with:
           switches: -avzr --delete
           # Specify the path to the release assets
-          path: ./release-assets/*
+          path: ./*
           # Adjust the remote path on the server where the files will be deployed
           remote_path: /var/www/my-app/
           # Provide the IP address or hostname of your server

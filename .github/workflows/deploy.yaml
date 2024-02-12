@@ -35,20 +35,50 @@ jobs:
       - name: Install PM2
         run: npm install pm2 -g
 
-      - name: Install dependency
+      - name: Create build
         run: npm run build
 
-      - name: deploy to aws server
+  create_release_draft:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Create Draft Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0.$GITHUB_RUN_NUMBER
+          draft: true
+          title: Release v1.0.$GITHUB_RUN_NUMBER
+          body: |
+            Describe your release here
+
+  publish_release:
+    runs-on: ubuntu-latest
+    needs: create_release_draft
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.publish == 'true'
+
+    steps:
+      - name: Deploy to AWS server
         uses: burnett01/rsync-deployments@5.1
         with:
           switches: -avzr --delete
-          path: ./dist/*
+          path: ./*
           remote_path: /var/www/my-app/
           remote_host: 34.239.108.195
           remote_user: ubuntu
           remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
 
-      - name: Start node server
-        run: |
-          pm2 delete app || true
-          pm2 start index.js --name app
+      - name: Publish Release
+        id: publish_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0.$GITHUB_RUN_NUMBER
+          release_name: Release v1.0.$GITHUB_RUN_NUMBER
+          draft: false
+          prerelease: false

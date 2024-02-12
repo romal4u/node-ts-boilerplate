@@ -52,3 +52,23 @@ jobs:
           title: Release v1.0.$GITHUB_RUN_NUMBER
           body: |
             Describe your release here
+
+      - name: Debug Draft Release
+        run: |
+          echo "Draft Release ID: ${{ steps.create_release.outputs.id }}"
+          echo "Draft Release HTML URL: ${{ steps.create_release.outputs.html_url }}"
+
+  update_release_draft:
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set GHE_HOST
+        run: |
+          echo "GHE_HOST=${GITHUB_SERVER_URL##https:\/\/}" >> $GITHUB_ENV
+
+      - name: Release Drafter
+        uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

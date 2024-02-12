@@ -52,10 +52,15 @@ jobs:
           title: Release v1.0.${{ github.run_number }}
           body: |
             Release v1.0.${{ github.run_number }}
+
       - name: Debug Draft Release
         run: |
-          echo "Draft Release ID: ${{ steps.create_release.outputs.id }}"
-          echo "Draft Release HTML URL: ${{ steps.create_release.outputs.html_url }}"
+          echo "Draft Release ID: ${{ steps.create-new-release.outputs.id }}"
+          echo "Draft Release HTML URL: ${{ steps.create-new-release.outputs.html_url }}"
+
+      - name: Create Release Assets
+        run: |
+          zip -r ./release-assets/1.0.${{ github.run_number }}.zip ./
 
       - name: Upload assets to Github release
         uses: actions/upload-release-asset@v1

@@ -22,12 +22,10 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/my-app/
-            git init
-            git remote add origin https://github.com/romal4u/node-ts-boilerplate
             git fetch
             git checkout main
 
-            
+
       # - name: Set up SSH key
       #   uses: webfactory/ssh-agent@v0.5.4
       #   with:

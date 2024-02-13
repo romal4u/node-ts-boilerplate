@@ -20,7 +20,7 @@ jobs:
       #     ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Test SSH Connection
-        run: ssh -i ${{ secrets.SERVER_SSH_KEY }} ubuntu@34.239.108.195
+        run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@34.239.108.195
 
       - name: rsync deployments
         uses: burnett01/rsync-deployments@6.0.0
@@ -30,7 +30,7 @@ jobs:
           remote_path: /var/www/my-app/
           remote_host: 34.239.108.195
           remote_user: ubuntu
-          remote_key: ${{ secrets.SERVER_SSH_KEY }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
           
       # - name: Install rsync
       #   run: sudo apt-get update && sudo apt-get install -y rsync
@@ -49,7 +49,7 @@ jobs:
       #   with:
       #     host: 34.239.108.195
       #     username: ubuntu
-      #     key: ${{ secrets.SERVER_SSH_KEY }}
+      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
       #     script: |
       #       cd /var/www/my-app/
       #       git checkout main

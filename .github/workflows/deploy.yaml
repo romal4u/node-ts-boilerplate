@@ -24,13 +24,13 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Set up node js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
+      # - name: Set up node js
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 20
 
-      - name: Install dependency
-        run: npm install
+      # - name: Install dependency
+      #   run: npm install
 
   create_release_draft:
     runs-on: ubuntu-latest

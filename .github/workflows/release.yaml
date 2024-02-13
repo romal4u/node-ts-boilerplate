@@ -19,8 +19,8 @@ jobs:
       #   with:
       #     ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Test SSH Connection
-        run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@34.239.108.195
+      # - name: Test SSH Connection
+      #   run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@34.239.108.195
 
       - name: rsync deployments
         uses: burnett01/rsync-deployments@6.0.0

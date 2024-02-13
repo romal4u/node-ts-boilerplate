@@ -36,7 +36,7 @@ jobs:
         run: |
               pwd
               echo $${{ github.workspace }}
-              rsync -avz --delete --ignore-times -e "ssh -o StrictHostKeyChecking=no" ${{ github.workspace }}/ ubuntu@34.239.108.195:/var/www/my-app/
+              rsync -avz --delete --ignore-times -e "ssh -o StrictHostKeyChecking=no" ${{ github.workspace }}/. ubuntu@34.239.108.195:/var/www/my-app/
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 

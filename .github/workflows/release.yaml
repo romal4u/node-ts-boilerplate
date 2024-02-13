@@ -14,6 +14,19 @@ jobs:
       - name: Current path
         run: pwd
 
+      - name: Initialize Git and clone repository
+        uses: appleboy/ssh-action@master
+        with:
+          host: 34.239.108.195
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/my-app/
+            git init
+            git remote add origin https://github.com/romal4u/node-ts-boilerplate
+            git fetch
+            git checkout main
+
       # - name: Set up SSH key
       #   uses: webfactory/ssh-agent@v0.5.4
       #   with:
@@ -22,15 +35,15 @@ jobs:
       # - name: Test SSH Connection
       #   run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@34.239.108.195
 
-      - name: rsync deployments
-        uses: burnett01/rsync-deployments@6.0.0
-        with:
-          switches: -avzr --delete
-          path: /home/runner/work/node-ts-boilerplate/node-ts-boilerplate/*
-          remote_path: /var/www/my-app/
-          remote_host: 34.239.108.195
-          remote_user: ubuntu
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+      # - name: rsync deployments
+      #   uses: burnett01/rsync-deployments@6.0.0
+      #   with:
+      #     switches: -avzr --delete
+      #     path: /home/runner/work/node-ts-boilerplate/node-ts-boilerplate/*
+      #     remote_path: /var/www/my-app/
+      #     remote_host: 34.239.108.195
+      #     remote_user: ubuntu
+      #     remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
           
       # - name: Install rsync
       #   run: sudo apt-get update && sudo apt-get install -y rsync

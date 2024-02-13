@@ -35,8 +35,8 @@ jobs:
       - name: Deploy folders to remote server
         run: |
               pwd
-              ls -la
-              rsync -avz --delete --ignore-times -e "ssh -o StrictHostKeyChecking=no" ${{ github.workspace }}/home/runner/work/node-ts-boilerplate/node-ts-boilerplate ubuntu@34.239.108.195:/var/www/my-app/
+              echo $${{ github.workspace }}
+              rsync -avz --delete --ignore-times -e "ssh -o StrictHostKeyChecking=no" ${{ github.workspace }}/ ubuntu@34.239.108.195:/var/www/my-app/
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 

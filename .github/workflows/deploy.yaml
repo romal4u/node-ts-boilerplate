@@ -42,6 +42,7 @@ jobs:
         uses: release-drafter/release-drafter@v5
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+        
 
         # id: create-new-release
         # uses: actions/create-release@v1
@@ -56,6 +57,6 @@ jobs:
 
       - name: Debug Draft Release
         run: |
-          echo "Current Draft Release URL: ${{ steps.get_draft_release.outputs.url }}"
+          echo "Current Draft Release URL: ${{ steps.get_draft_release.outputs.html_url }}"
           echo "Draft Release ID: ${{ steps.create-new-release.outputs.id }}"
           echo "Draft Release HTML URL: ${{ steps.create-new-release.outputs.html_url }}"

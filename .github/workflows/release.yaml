@@ -14,11 +14,16 @@ jobs:
       - name: Current path
         run: pwd        
 
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
       - name: rsync deployments
         uses: burnett01/rsync-deployments@6.0.0
         with:
           switches: -avzr --delete
-          path: src/
+          path: ./
           remote_path: /var/www/my-app/
           remote_host: 34.239.108.195
           remote_user: ubuntu

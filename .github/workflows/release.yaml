@@ -47,13 +47,15 @@ jobs:
       # - name: Install rsync
       #   run: sudo apt-get update && sudo apt-get install -y rsync
 
-      - name: Deploy folders to remote server
-        run: |
-              pwd
-              echo $${{ github.workspace }}
-              rsync -avz --delete --ignore-times -e "ssh -o StrictHostKeyChecking=no" ${{ github.workspace }}/. ubuntu@34.239.108.195:/var/www/my-app/
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: copy file via ssh key
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: 34.239.108.195
+          username: ubuntu
+          port: 22
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "*"
+          target: /var/www/my-app/
 
 
       # - name: SSH into server and checkout main branch

@@ -38,7 +38,7 @@ jobs:
         uses: burnett01/rsync-deployments@6.0.0
         with:
           switches: -avzr --delete
-          path: /home/runner/work/node-ts-boilerplate/node-ts-boilerplate/*
+          path: /.*
           remote_path: /var/www/my-app/
           remote_host: 34.239.108.195
           remote_user: ubuntu

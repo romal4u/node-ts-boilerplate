@@ -19,6 +19,9 @@ jobs:
       #   with:
       #     ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Test SSH Connection
+        run: ssh -i ${{ secrets.SERVER_SSH_KEY }} ubuntu@34.239.108.195
+
       - name: rsync deployments
         uses: burnett01/rsync-deployments@6.0.0
         with:
@@ -28,8 +31,7 @@ jobs:
           remote_host: 34.239.108.195
           remote_user: ubuntu
           remote_key: ${{ secrets.SERVER_SSH_KEY }}
-
-
+          
       # - name: Install rsync
       #   run: sudo apt-get update && sudo apt-get install -y rsync
 

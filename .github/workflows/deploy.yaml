@@ -56,5 +56,6 @@ jobs:
 
       - name: Debug Draft Release
         run: |
+          echo "Current Draft Release URL: ${{ steps.get_draft_release.outputs.url }}"
           echo "Draft Release ID: ${{ steps.create-new-release.outputs.id }}"
           echo "Draft Release HTML URL: ${{ steps.create-new-release.outputs.html_url }}"

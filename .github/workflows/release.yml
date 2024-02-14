@@ -41,4 +41,14 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/my-app/
+
+      - name: SSH into server and run npm build
+        uses: appleboy/ssh-action@master
+        with:
+          host: 34.239.108.195
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/my-app/
+            npm install
             npm run build

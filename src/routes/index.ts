@@ -11,4 +11,10 @@ router.get('/ping', (req: Request, res: Response) => {
   res.send('OK')
 })
 
+router.get('/status', (req: Request, res: Response) => {
+  console.log('in ping service')
+  res.status(200).send({status: 200, message: 'OK'})
+})
+
+
 export default router

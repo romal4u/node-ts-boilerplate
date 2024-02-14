@@ -32,14 +32,3 @@ jobs:
       #     password: cicd1904
       #     source: "*"
       #     target: /home/my-app/
-
-      - name: SSH into server and checkout main branch
-        uses: appleboy/ssh-action@master
-        with:
-          host: 34.239.108.195
-          username: ubuntu
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd /var/www/my-app/
-            chmod +x scripts/run.sh
-            ./scripts/run.sh 

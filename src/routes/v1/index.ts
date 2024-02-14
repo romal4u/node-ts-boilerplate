@@ -6,6 +6,6 @@ const router = Router()
 
 router.use('/auth', auth)
 
-router.get('/status', (req: Request, res: Response) => res.send('OK'))
+router.get('/ping', (req: Request, res: Response) => res.send('OK'))
 
 export default router

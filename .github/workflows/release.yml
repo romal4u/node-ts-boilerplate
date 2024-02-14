@@ -57,6 +57,14 @@ jobs:
           source: "*"
           target: /var/www/my-app/
 
+      - name: copy file via ssh on server 2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: 159.69.198.110
+          username: root
+          password: cicd1904
+          source: "*"
+          target: /home/my-app/
 
       # - name: SSH into server and checkout main branch
       #   uses: appleboy/ssh-action@master

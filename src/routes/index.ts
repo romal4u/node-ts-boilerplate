@@ -7,8 +7,8 @@ const router = Router()
 router.use(`/v1`, v1)
 
 router.get('/ping', (req: Request, res: Response) => {
-    console.log('in ping service')
-    res.send('OK')})
-
+  console.log('in ping service')
+  res.send('OK')
+})
 
 export default router

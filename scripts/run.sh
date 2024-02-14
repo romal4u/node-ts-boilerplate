@@ -9,5 +9,7 @@ cp .env dist/ || exit
 # Change directory to dist
 cd dist || exit
 
+npm install pm2 -g
+
 # Start the application with pm2
-pm2 start index.js --name app --watch || exit
+pm2 start index.js --name app --watch

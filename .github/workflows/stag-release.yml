@@ -32,4 +32,4 @@ jobs:
           port: 22
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "*"
-          target: /var/www/my-app/
+          target: /var/www/html/

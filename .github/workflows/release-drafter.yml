@@ -2,59 +2,23 @@ name: CI/CD for boilerplate
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
-    env:
-      NODE_ENV: dev
-      PORT: 3000
-      DB_HOST: localhost
-      DB_PORT: 3306
-      DB_USER: root
-      DB_PASSWORD: root
-      DB_NAME: db_boilerplate
-      JWT_SECRET: dfdhhf8gh523reh6qedn37dferpoaw@1904#
-      JWT_EXPIRATION: 15m
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      # - name: Set up node js
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 20
-
-      # - name: Install dependency
-      #   run: npm install
-
   create_release_draft:
     runs-on: ubuntu-latest
-    needs: deploy
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
+      - uses: actions/checkout@v3
+
       - name: Create Draft Release
         id: create-new-release
         uses: release-drafter/release-drafter@v6
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
-        
-
-        # id: create-new-release
-        # uses: actions/create-release@v1
-        # env:
-        #   GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
-        # with:
-        #   tag_name: v1.0.${{ github.run_number }}
-        #   draft: true
-        #   title: Release v1.0.${{ github.run_number }}
-        #   body: |
-        #     Release v1.0.${{ github.run_number }}
 
       - name: Debug Draft Release
         run: |

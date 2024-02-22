@@ -22,7 +22,6 @@ appDataSource
     console.error(`Data Source initialization error`, err)
   })
 
-// start app
 const app = express()
 app.disable('x-powered-by')
 app.use(cors({ credentials: true, origin: true }))

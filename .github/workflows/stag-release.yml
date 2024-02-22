@@ -1,0 +1,35 @@
+name: Stage Release
+
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch:
+
+jobs:
+  checkout_to_develop_branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+  deploy_on_stag_server:
+    runs-on: ubuntu-latest
+    needs: checkout_to_develop_branch
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Current path
+        run: pwd
+
+      - name: Copy files via SSH on Server 1
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: 34.239.108.195
+          username: ubuntu
+          port: 22
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "*"
+          target: /var/www/my-app/

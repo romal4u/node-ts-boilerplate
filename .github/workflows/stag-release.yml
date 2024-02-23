@@ -24,6 +24,9 @@ jobs:
           source: "*"
           target: /var/www/html/
       
+      - name: Get Node.js binary path
+        run: echo "::set-output name=node_path::$(which node)"
+
       - name: SSH to Server and run commands
         uses: appleboy/ssh-action@master
         with:
@@ -33,4 +36,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/html/
+            export PATH="$PATH:$NODE_PATH"
             npm install

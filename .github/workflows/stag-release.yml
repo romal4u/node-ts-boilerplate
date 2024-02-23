@@ -36,5 +36,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/html/
-            export PATH="$PATH:$NODE_PATH"
-            npm install
+            which npm
+            export PATH="$PATH:$(which npm)"
+            $(which npm) install

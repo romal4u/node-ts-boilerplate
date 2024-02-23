@@ -25,7 +25,7 @@ jobs:
           target: /var/www/html/
       
       - name: Get Node.js binary path
-        run: echo "::set-output name=node_path::$(which node)"
+        run: echo "::set-output name=node_path::$(which npm)"
 
       - name: SSH to Server and run commands
         uses: appleboy/ssh-action@master

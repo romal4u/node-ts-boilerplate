@@ -14,28 +14,31 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Copy files via SSH on Server 1
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: 54.167.213.253
-          username: ubuntu
-          port: 22
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "*"
-          target: /var/www/html/
-      
-      - name: Get Node.js binary path
-        run: echo "::set-output name=node_path::$(which npm)"
-
-      - name: SSH to Server and run commands
-        uses: appleboy/ssh-action@master
-        with:
-          host: 54.167.213.253
-          username: ubuntu
-          port: 22
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd /var/www/html/
-            which npm
-            export PATH="$PATH:$(which npm)"
-            npm install
+      - name: Loop through servers and deploy
+        run: |
+          IFS=$'\n' # Set the Internal Field Separator to newline
+          for server_config in ${{ secrets.SERVER_LIST }}; do
+            # Extract server configuration values
+            host=$(echo $server_config | cut -d',' -f1)
+            username=$(echo $server_config | cut -d',' -f2)
+            password=$(echo $server_config | cut -d',' -f3)
+            working_dir=$(echo $server_config | cut -d',' -f4)
+            
+            echo "Deploying to $host"
+            
+            # Copy files via SCP
+            echo "Copying files to $host"
+            scp -r * $username@$host:$working_dir
+            
+            # SSH to server and run commands
+            echo "Running commands on $host"
+            sshpass -p $password ssh $username@$host << EOF
+              cd $working_dir
+              which npm
+              npm install --production
+              npm run lint .
+            EOF
+          done
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_auth_sock
+        shell: bash
